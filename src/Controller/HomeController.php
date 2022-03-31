@@ -2,17 +2,22 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController
+class HomeController extends AbstractController
 {
-    /**
-     * @Route("/")
-     */
-    public function index(): Response
+    #[Route('/{name}', "home_route")]
+    public function index(Request $request): Response
     {
-        $number = random_int(0, 100);
-        return new Response('this is home');
+        $name = $request->attributes->get('name');
+        $nameQuery = $request->query->get('name');
+
+        return $this->render('home.html.twig', [
+            'name' => $name
+        ]);
     }
 }
